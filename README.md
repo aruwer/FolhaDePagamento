@@ -2,6 +2,8 @@
 
 Aplicação em Java com Spring Boot e PostgreSQL para gerenciamento, cálculo de salários e emissão de folhas de pagamento individuais e consolidadas para diferentes categorias de colaboradores.
 
+
+
 ---
 
 ## 📌 Sumário
