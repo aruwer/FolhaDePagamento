@@ -1,17 +1,43 @@
-version: '3.8'
-
 services:
-  postgres:
-    image: postgres:15-alpine
-    container_name: folha_db
+  pg-docker:
+    image: postgres:14-alpine
+    container_name: dev-postgresql
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: rootpassword
       POSTGRES_DB: folha_pagamento_db
     ports:
-      - "5432:5432"
+      - 5433:5432
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - dev-network
+  pgadmin-docker:
+    image: dpage/pgadmin4
+    container_name: dev-pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: me@example.com
+      PGADMIN_DEFAULT_PASSWORD: 1234567
+    ports:
+      - 5050:80
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    depends_on:
+      - pg-docker
+    networks:
+      - dev-network
+  redis:
+    image: redis:6.2
+    container_name: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - dev-network
 
 volumes:
-  pgdata:
+  postgres_data:
+  pgadmin_data:
+  
+networks:
+  dev-network:
+    driver: bridge
